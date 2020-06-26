@@ -1,10 +1,11 @@
-#spring-graphql
+# spring-graphql
+
 **A simple application with SpringBoot and GraphQL.**
 
 Testing the application:
 - Running the Spring Boot application.
-- Open localhost:9001/graphiql
-- These are some query you could try
+- Open localhost:9001/graphiql.
+- These are some queries you could try on GraphiQL screen.
      
 ```
 query {
