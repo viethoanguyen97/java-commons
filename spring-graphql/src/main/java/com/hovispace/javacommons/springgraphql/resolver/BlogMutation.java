@@ -22,12 +22,12 @@ import java.util.UUID;
  * Otherwise, all of the same rules apply as for queries. The return value from a Mutation field is then treated exactly the same as from a Query field,
  * allowing nested values to be retrieved as well.
  */
-public class Mutation implements GraphQLMutationResolver {
+public class BlogMutation implements GraphQLMutationResolver {
 
     private final PostDao _postDao;
 
     @Autowired
-    public Mutation(PostDao postDao) {
+    public BlogMutation(PostDao postDao) {
         _postDao = postDao;
     }
 

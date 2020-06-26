@@ -1,0 +1,15 @@
+#The one requirement is that there must be exactly one root query, and up to one root mutation.
+#This can not be split across files, unlike the rest of the scheme. This is a limitation of the GraphQL Schema definition itself, and not of the Java implementation.
+
+# The Root Query for the application
+type Query {
+    recentPosts(count: Int, offset: Int): [Post]!
+    vehicles(count: Int): [Vehicle]
+    vehicle(id: ID): Vehicle
+}
+
+# The Root Mutation for the application
+type Mutation {
+    writePost(title: String!, text: String!, category: String, author: String!) : Post!
+    createVehicle(type: String!, modelCode: String!, brandName: String, launchDate: String): Vehicle!
+}

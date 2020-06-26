@@ -2,21 +2,18 @@ package com.hovispace.javacommons.springgraphql.configuration;
 
 import com.hovispace.javacommons.springgraphql.dao.AuthorDao;
 import com.hovispace.javacommons.springgraphql.dao.PostDao;
+import com.hovispace.javacommons.springgraphql.dao.VehicleRepository;
 import com.hovispace.javacommons.springgraphql.entity.Author;
 import com.hovispace.javacommons.springgraphql.entity.Post;
-import com.hovispace.javacommons.springgraphql.resolver.AuthorResolver;
-import com.hovispace.javacommons.springgraphql.resolver.Mutation;
-import com.hovispace.javacommons.springgraphql.resolver.PostResolver;
-import com.hovispace.javacommons.springgraphql.resolver.Query;
+import com.hovispace.javacommons.springgraphql.resolver.*;
+import com.hovispace.javacommons.springgraphql.service.VehicleService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * In order to make this module be easier to setup & run, there will be no actual established connection to the database
- */
+
 @Configuration
 public class SpringGraphQLConfiguration {
 
@@ -60,12 +57,28 @@ public class SpringGraphQLConfiguration {
     }
 
     @Bean
-    public Query query(PostDao postDao) {
-        return new Query(postDao);
+    public BlogQuery blogQuery(PostDao postDao) {
+        return new BlogQuery(postDao);
     }
 
     @Bean
-    public Mutation mutation(PostDao postDao) {
-        return new Mutation(postDao);
+    public BlogMutation blogMutation(PostDao postDao) {
+        return new BlogMutation(postDao);
     }
+
+    @Bean
+    public VehicleQuery vehicleQuery(VehicleService vehicleService) {
+        return new VehicleQuery(vehicleService);
+    }
+
+    @Bean
+    public VehicleMutation vehicleMutation(VehicleService vehicleService) {
+        return new VehicleMutation(vehicleService);
+    }
+
+    @Bean
+    public VehicleService vehicleService(VehicleRepository vehicleRepository) {
+        return new VehicleService(vehicleRepository);
+    }
+
 }

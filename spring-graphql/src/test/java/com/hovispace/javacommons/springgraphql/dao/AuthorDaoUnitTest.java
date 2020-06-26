@@ -1,6 +1,5 @@
-package com.hovispace.javacommons.springgraphql;
+package com.hovispace.javacommons.springgraphql.dao;
 
-import com.hovispace.javacommons.springgraphql.dao.AuthorDao;
 import com.hovispace.javacommons.springgraphql.entity.Author;
 import com.hovispace.javacommons.springgraphql.entity.Post;
 import org.junit.Test;

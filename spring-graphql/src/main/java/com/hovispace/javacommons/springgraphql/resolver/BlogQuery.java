@@ -25,12 +25,12 @@ import java.util.List;
  * Any simple types – String, Int, List, etc. – can be used with the equivalent Java types, and the system just maps them automatically.
  * The above defined the method getRecentPosts which will be used to handle any GraphQL queries for the recentPosts field in the schema defined earlier.
  */
-public class Query implements GraphQLQueryResolver {
+public class BlogQuery implements GraphQLQueryResolver {
 
     private final PostDao _postDao;
 
     @Autowired
-    public Query(PostDao postDao) {
+    public BlogQuery(PostDao postDao) {
         _postDao = postDao;
     }
 
