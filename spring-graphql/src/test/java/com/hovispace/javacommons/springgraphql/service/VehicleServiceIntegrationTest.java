@@ -4,13 +4,12 @@ import com.hovispace.javacommons.springgraphql.dao.VehicleRepository;
 import com.hovispace.javacommons.springgraphql.entity.Vehicle;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import java.util.Optional;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
@@ -29,13 +28,10 @@ public class VehicleServiceIntegrationTest {
         }
     }
 
-    @Autowired
-    private TestEntityManager _entityManager;
-
-    @Autowired
+    @Resource
     private VehicleService _vehicleService;
 
-    @Autowired
+    @Resource
     private VehicleRepository _vehicleRepository;
 
     @Test
