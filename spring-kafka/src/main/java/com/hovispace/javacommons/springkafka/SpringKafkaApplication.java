@@ -10,10 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
-public class Application {
+public class SpringKafkaApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext applicationContext = SpringApplication.run(Application.class, args);
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(SpringKafkaApplication.class, args);
 
         KafkaProducer kafkaProducer = applicationContext.getBean(KafkaProducer.class);
         KafkaConsumer kafkaConsumer = applicationContext.getBean(KafkaConsumer.class);

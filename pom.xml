@@ -19,7 +19,7 @@
         <junit.version>4.13</junit.version>
         <mockito.version>3.3.3</mockito.version>
         <guava.version>29.0-jre</guava.version>
-        <jackson.version>2.9.7</jackson.version>
+        <jackson.version>2.11.1</jackson.version>
         <commonlang3.version>3.10</commonlang3.version>
     </properties>
 
@@ -45,6 +45,11 @@
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-jpa</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-autoconfigure</artifactId>
                 <version>${springboot.version}</version>
             </dependency>
             <dependency>
