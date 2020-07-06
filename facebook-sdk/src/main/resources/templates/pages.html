@@ -1,0 +1,16 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Facebook Feed</title>
+</head>
+<body>
+<!--<h3>Welcome, <span th:text="${userProfile.name}"></span>!</h3>-->
+
+<h4>Facebook pages:</h4>
+
+<div th:each="page:${pages}">
+    <b th:text="${page.id}"></b>
+    <p th:text="${page.name}"> </p>
+    <hr/>
+</div>
+</body>
+</html>

@@ -12,7 +12,8 @@
     <properties>
         <project.version>1.0</project.version>
         <spring.boot.version>2.3.0.RELEASE</spring.boot.version>
-        <spring.social.version>2.0.3.RELEASE</spring.social.version>
+        <spring.social.version>1.1.6.RELEASE</spring.social.version>
+        <spring.social.facebook.version>2.0.3.RELEASE</spring.social.facebook.version>
         <spring.security.version>5.3.3.RELEASE</spring.security.version>
         <spring.version>5.2.6.RELEASE</spring.version>
         <h2db.version>1.4.200</h2db.version>
@@ -116,20 +117,26 @@
                 <version>${spring.version}</version>
                 <scope>test</scope>
             </dependency>
+            <!--  Spring Social -->
             <dependency>
                 <groupId>org.springframework.social</groupId>
                 <artifactId>spring-social-facebook</artifactId>
-                <version>${spring.social.version}</version>
+                <version>${spring.social.facebook.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.social</groupId>
                 <artifactId>spring-social-core</artifactId>
-                <version>1.1.6.RELEASE</version>
+                <version>${spring.social.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.social</groupId>
                 <artifactId>spring-social-config</artifactId>
-                <version>1.1.6.RELEASE</version>
+                <version>${spring.social.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.social</groupId>
+                <artifactId>spring-social-security</artifactId>
+                <version>${spring.social.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
@@ -144,6 +151,11 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
+                <version>${spring.security.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-crypto</artifactId>
                 <version>${spring.security.version}</version>
             </dependency>
             <dependency>
