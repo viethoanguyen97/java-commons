@@ -34,7 +34,6 @@
         <module>spring-kafka</module>
         <module>spring-graphql</module>
         <module>spring-social</module>
-        <module>facebook-sdk</module>
     </modules>
 
     <dependencyManagement>
