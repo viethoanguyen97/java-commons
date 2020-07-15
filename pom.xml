@@ -27,6 +27,7 @@
         <apache.collections4.version>4.4</apache.collections4.version>
         <thymeleaf.version>3.0.4.RELEASE</thymeleaf.version>
         <gson.version>2.6.2</gson.version>
+        <elasticsearch.version>6.8.3</elasticsearch.version>
     </properties>
 
     <modules>
@@ -34,6 +35,9 @@
         <module>spring-kafka</module>
         <module>spring-graphql</module>
         <module>spring-social</module>
+        <module>shopee</module>
+        <module>spring-data</module>
+        <module>elasticsearch</module>
     </modules>
 
     <dependencyManagement>
@@ -248,6 +252,22 @@
                 <artifactId>gson</artifactId>
                 <version>${gson.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>transport</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -269,13 +289,13 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.boot.version}</version>
             </plugin>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
+<!--            <plugin>-->
+<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <source>1.8</source>-->
+<!--                    <target>1.8</target>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 </project>
