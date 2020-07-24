@@ -12,7 +12,7 @@ public class ElasticConfig {
     //Before we jump straight to how to use the main Java API features, we need to initiate the RestHighLevelClient:
     @Bean
     public RestHighLevelClient restHighLevelClient() {
-        //TODO: recheck initiate client
+
         return new RestHighLevelClient(
             RestClient.builder(new HttpHost("localhost", 9202, "http"))
         );
