@@ -7,7 +7,7 @@
     <groupId>com.hovispace</groupId>
     <artifactId>java-commons</artifactId>
     <packaging>pom</packaging>
-    <version>${project.version}</version>
+    <version>1.0</version>
 
     <properties>
         <project.version>1.0</project.version>
@@ -271,11 +271,46 @@
                 <version>${spring.boot.version}</version>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <release>11</release>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <configuration>
+                    <skip>false</skip>
+                    <failIfNoTests>false</failIfNoTests>
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <includes>
+                        <include>**/*IntegrationTest.java</include>
+                        <include>**/*UnitTest.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.5</version>
+                <executions>
+                    <execution>
+                        <id>default-prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
