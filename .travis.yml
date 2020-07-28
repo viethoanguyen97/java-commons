@@ -1,0 +1,23 @@
+language: java
+jdk:
+  - openjdk11
+cache:
+  directories:
+    - $HOME/.m2
+stages:
+  - compile
+  - unit_test
+  - integration_test
+jobs:
+  include:
+    - stage: compile
+      name: "Compile stage"
+      script: ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install -DskipTests
+    - stage: unit_test
+      name: "Test stage runs all unit tests"
+      script: ./mvnw '-Dtest=**/*UnitTest' test
+    - stage: integration_test
+      name: "Test stage runs all integration tests"
+      script: ./mvnw '-Dtest=**/*IntegrationTest' test
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
