@@ -4,20 +4,19 @@ jdk:
 cache:
   directories:
     - $HOME/.m2
+env:
+  - TEST_CONFIG='-Dtest=**/*UnitTest'
+  - TEST_CONFIG='-Dtest=**/*IntegrationTest'
 stages:
   - compile
-  - unit_test
-  - integration_test
+  - test
 jobs:
   include:
     - stage: compile
       name: "Compile stage"
       script: ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install -DskipTests
-    - stage: unit_test
-      name: "Test stage runs all unit tests"
-      script: ./mvnw '-Dtest=**/*UnitTest' test
-    - stage: integration_test
-      name: "Test stage runs all integration tests"
-      script: ./mvnw '-Dtest=**/*IntegrationTest' test
+    - stage: test
+      name: "Test stage runs all tests"
+      script: ./mvnw $TEST_CONFIG test
 after_success:
   - bash <(curl -s https://codecov.io/bash)
