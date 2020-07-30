@@ -1,4 +1,4 @@
-package com.hovispace.javacommons.guava;
+package com.hovispace.javacommons.utilities.guava;
 
 import com.google.common.cache.*;
 import com.google.common.collect.ImmutableMap;

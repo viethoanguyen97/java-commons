@@ -27,6 +27,7 @@
         <apache.collections4.version>4.4</apache.collections4.version>
         <thymeleaf.version>3.0.4.RELEASE</thymeleaf.version>
         <gson.version>2.6.2</gson.version>
+        <kryo.version>5.0.0-RC7</kryo.version>
     </properties>
 
     <modules>
@@ -34,7 +35,7 @@
         <module>spring-kafka</module>
         <module>spring-graphql</module>
         <module>spring-social</module>
-        <module>guava</module>
+        <module>common-libraries</module>
     </modules>
 
     <dependencyManagement>
@@ -249,6 +250,11 @@
                 <artifactId>gson</artifactId>
                 <version>${gson.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>kryo</artifactId>
+                <version>${kryo.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -264,6 +270,34 @@
     </pluginRepositories>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>generated-sources</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>src/test/java</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </testResource>
+        </testResources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
