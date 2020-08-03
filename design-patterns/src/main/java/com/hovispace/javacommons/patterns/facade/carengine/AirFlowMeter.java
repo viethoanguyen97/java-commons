@@ -1,0 +1,6 @@
+package com.hovispace.javacommons.patterns.facade.carengine;
+
+public class AirFlowMeter {
+
+    public void getMeasurement() {}
+}

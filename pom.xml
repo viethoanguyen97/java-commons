@@ -28,6 +28,7 @@
         <thymeleaf.version>3.0.4.RELEASE</thymeleaf.version>
         <gson.version>2.6.2</gson.version>
         <kryo.version>5.0.0-RC7</kryo.version>
+        <log4j.version>2.13.3</log4j.version>
     </properties>
 
     <modules>
@@ -36,6 +37,7 @@
         <module>spring-graphql</module>
         <module>spring-social</module>
         <module>common-libraries</module>
+        <module>design-patterns</module>
     </modules>
 
     <dependencyManagement>
@@ -254,6 +256,11 @@
                 <groupId>com.esotericsoftware</groupId>
                 <artifactId>kryo</artifactId>
                 <version>${kryo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
