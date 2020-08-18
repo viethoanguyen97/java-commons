@@ -28,7 +28,8 @@
         <thymeleaf.version>3.0.4.RELEASE</thymeleaf.version>
         <gson.version>2.6.2</gson.version>
         <kryo.version>5.0.0-RC7</kryo.version>
-        <elasticsearch.version>6.8.3</elasticsearch.version>
+        <elasticsearch.version>7.8.1</elasticsearch.version>
+        <awaitility.version>4.0.3</awaitility.version>
     </properties>
 
     <modules>
@@ -99,11 +100,6 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-thymeleaf</artifactId>
-                <version>${spring.boot.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-autoconfigure</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
             <dependency>
@@ -272,6 +268,12 @@
                 <groupId>org.elasticsearch.client</groupId>
                 <artifactId>transport</artifactId>
                 <version>${elasticsearch.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.awaitility</groupId>
+                <artifactId>awaitility</artifactId>
+                <version>${awaitility.version}</version>
+                <scope>test</scope>
             </dependency>
 
         </dependencies>
