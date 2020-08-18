@@ -1,7 +1,7 @@
-#Elasticsearch
+# Elasticsearch
 
-##Environment setup
-###Single node cluster
+## Environment setup
+### Single node cluster
 - Pulling the image
     ```$xslt
     docker pull docker.elastic.co/elasticsearch/elasticsearch:7.8.1
@@ -19,7 +19,7 @@
     docker run --link elasticsearch:elasticsearch -d -p 5601:5601 --name="kibana" -v /var/run/docker.sock:/var/run/docker.sock -v kibana_data:/data docker.elastic.co/kibana/kibana:7.8.1
     ```
   
-###Multi-node cluster
+### Multi-node cluster
 - [Running the Elastic Stack on Docker](https://www.elastic.co/guide/en/elastic-stack-get-started/current/get-started-docker.html)
 - Run docker-compose to bring up the Elastic cluster and Kibana
     ```$xslt
@@ -32,7 +32,7 @@
 - Open Kibana to load sample data and interact with the cluster: http://localhost:5601.
 - Enjoy!
 
-###Reference: 
+### Reference: 
 - [Guide to Elasticsearch in Java](https://www.baeldung.com/elasticsearch-java)
 - [Getting started with the Elastic Stack](https://www.elastic.co/guide/en/elastic-stack-get-started/7.x/get-started-elastic-stack.html)
 - [Installing Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html)
