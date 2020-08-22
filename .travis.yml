@@ -7,6 +7,12 @@ cache:
 env:
   - TEST_CONFIG='-Dtest=**/*UnitTest'
   - TEST_CONFIG='-Dtest=**/*IntegrationTest'
+addons:
+  sonarcloud:
+    organization: "viethoanguyen97"
+    token:
+      secure: "SVYDHEagQF5uRweyWFEdjIsrwPwO3vHOzMnZ0usq0moTnbnqLbd/DwWiHhJsA7FEbfXGYrlQl+Y0OXkXIhxLkD9If+GBE8wXhMRL4FJmAdMlBzgS78e8pkLBFA+QTsS39xA3XzPZ0P+AlwgqrF7DIlwfMijHKVpyFLqYYYkwn7jRz0hIU27ZbEGBuOoDDplR91S2Gnac7dd9uvpQBCsFLYsPqOt6se8FJN5nGqdvpjV1b3dVEX8yk5CyogfDsVq5EtTUNYTKHEhKvL/fcq0h8Wf/hwNv4NXW5Z2wEz0LvRclBIgpB38wQ6KI7OxbEDmL9r9Lhbc23u4MHQyDGYDrfkkfRq9ga0rB60Y1qWfQf4L+tLPIOQcUPcK8+wZpzKldF0zFo+ZvGxWc3wWVzO9C4H9pIfWKfH/HcOz9iq/XHQOw+/X2pnGkgQsHbUdHFylAHRkY/ht9nMhUANkhrSDTZLxXLkx1TYTwa+DhvfaV8QWvx7zoK6OfuPIQC4lj7v3IEZQC+DKbv5e9BbdPREy5/wqVTQm6MNbwxuutnYBUH8hfSAW09iqaIGEm++M2R6IIuvRBbIS9bGllEyDLP5VIe4QPyZKnHlh854ZezKOPkHMvpeL7jij2JJVZ944YsscjnK0JAtSa0IYfJ1Lm/j0BpHNbZfao2S0dU3JOOIvHxns="
+
 stages:
   - compile
   - test
@@ -26,7 +32,7 @@ jobs:
   include:
     - stage: compile
       name: "Compile stage"
-      script: ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install -DskipTests
+      script: ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=viethoanguyen97_java-commons -DskipTests
     - stage: test
       script: ./mvnw $TEST_CONFIG test
 after_success:
