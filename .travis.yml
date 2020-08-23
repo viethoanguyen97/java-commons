@@ -3,7 +3,8 @@ jdk:
   - openjdk11
 cache:
   directories:
-    - $HOME/.m2
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
 
 addons:
   sonarcloud:
@@ -11,9 +12,16 @@ addons:
     token:
       secure: "Z+MZAH+RZRqLAlhq9bsrP9BxboK00Hvh+PDLqr9AlncPiVaS6Wumd3+EcI+cEu8oX83slgOJ0l3BZJJjeNifs0l6F6xdcom0ZN17Gz6TPpBLw8nLW5sPShtk7/YU2kKI6iAutCSHba31uVC8AAHN8TrZUtm/5qjNgl1yv7PydoGsRXZWylaVlP9NdUJL1IFNJvdy6I8/aZXitSq0OZlQpNTTlVvGiOqh3ssNhHauCYRlNK38pljsXUi3NtPEi1yXkVWVqKjK4/3RCjow9q/ISIa7J4Li8dT6HxP2uTzpL4JmP8P/jmGH/oGQ/VrvXEmgGbSeI2DVLtqcBddB16ni8NT6ZQxiNrR+ql+IWL5UWyAz636TSfAbUxRrVAGwGtoBpW5Aj3EJRGai829DE1jWi3l68BqDdWA7fy2oKwQTuV32dEdc067d74J2tE77YLo6fT/8H8NYkys1nkBhizQQXhSYSqYGmhBVyjKttIR6hiXNx4o3azZwWNMhLgNJFNfVxZaSwJmYYqUAwxYZQKzRcz38qCWAhWPwpy/tLsQ35A/FxtD0ZOSqadgBCbnP5N2fGO33Rw+ZVBuNZlzmHwcGYLdh1BE0yxanXCVSKZsl/ePtDgDKV9cuiJatUzMpZrXe12a9C38iYsKztJFV5pPG6KnyYF8w15UrS2R+hTG5eUw="
 
-stage:
+branches:
+  only:
+    - master
+
+stages:
   - compile
   - tests
+  #split the summary test result and inspection to another stage triggered only on master and pull requests
+  - name: deploy
+    if: type != pull_request
 
 before_install:
   #install elastic search
@@ -31,7 +39,7 @@ jobs:
   include:
     - stage: compile
       name: Compile stage
-      script: ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install -DskipTests
+      script: ./mvnw clean install -DskipTests
 
     - stage: tests
       name: Unit Tests
@@ -39,6 +47,12 @@ jobs:
 
     - script: ./mvnw '-Dtest=**/*IntegrationTest' test
       name: Integration Tests
+
+    - stage: deploy
+      name: Deploy stage
+      script:
+        - ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent package org.jacoco:jacoco-maven-plugin:report
+        - ./mvn sonar:sonar
+        - bash <(curl -s https://codecov.io/bash)
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
-  - ./mvnw sonar:sonar -Dsonar.projectKey=viethoanguyen97_java-commons
+  - echo "Success"

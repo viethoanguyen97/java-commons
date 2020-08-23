@@ -316,7 +316,7 @@
                 <configuration>
                     <skip>false</skip>
                     <failIfNoTests>false</failIfNoTests>
-                    <testFailureIgnore>true</testFailureIgnore>
+                    <testFailureIgnore>false</testFailureIgnore>
                     <includes>
                         <include>**/*IntegrationTest.java</include>
                         <include>**/*UnitTest.java</include>
