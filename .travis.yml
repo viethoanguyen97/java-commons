@@ -52,7 +52,7 @@ jobs:
       name: Deploy stage
       script:
         - ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent package org.jacoco:jacoco-maven-plugin:report
-        - ./mvn sonar:sonar
+        - ./mvnw sonar:sonar
         - bash <(curl -s https://codecov.io/bash)
 after_success:
   - echo "Success"
