@@ -4,19 +4,17 @@ jdk:
 cache:
   directories:
     - $HOME/.m2
-env:
-  jobs:
-    - TEST_CONFIG='-Dtest=**/*UnitTest'
-    - TEST_CONFIG='-Dtest=**/*IntegrationTest'
+
 addons:
   sonarcloud:
     organization: "viethoanguyen97"
     token:
       secure: "Z+MZAH+RZRqLAlhq9bsrP9BxboK00Hvh+PDLqr9AlncPiVaS6Wumd3+EcI+cEu8oX83slgOJ0l3BZJJjeNifs0l6F6xdcom0ZN17Gz6TPpBLw8nLW5sPShtk7/YU2kKI6iAutCSHba31uVC8AAHN8TrZUtm/5qjNgl1yv7PydoGsRXZWylaVlP9NdUJL1IFNJvdy6I8/aZXitSq0OZlQpNTTlVvGiOqh3ssNhHauCYRlNK38pljsXUi3NtPEi1yXkVWVqKjK4/3RCjow9q/ISIa7J4Li8dT6HxP2uTzpL4JmP8P/jmGH/oGQ/VrvXEmgGbSeI2DVLtqcBddB16ni8NT6ZQxiNrR+ql+IWL5UWyAz636TSfAbUxRrVAGwGtoBpW5Aj3EJRGai829DE1jWi3l68BqDdWA7fy2oKwQTuV32dEdc067d74J2tE77YLo6fT/8H8NYkys1nkBhizQQXhSYSqYGmhBVyjKttIR6hiXNx4o3azZwWNMhLgNJFNfVxZaSwJmYYqUAwxYZQKzRcz38qCWAhWPwpy/tLsQ35A/FxtD0ZOSqadgBCbnP5N2fGO33Rw+ZVBuNZlzmHwcGYLdh1BE0yxanXCVSKZsl/ePtDgDKV9cuiJatUzMpZrXe12a9C38iYsKztJFV5pPG6KnyYF8w15UrS2R+hTG5eUw="
 
-stages:
+stage:
   - compile
   - tests
+
 before_install:
   #install elastic search
   - curl -s -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.8.1-amd64.deb
@@ -32,10 +30,15 @@ before_script:
 jobs:
   include:
     - stage: compile
-      name: "Compile stage"
+      name: Compile stage
       script: ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install -DskipTests
+
     - stage: tests
-      script: ./mvnw $TEST_CONFIG test
+      name: Unit Tests
+      script: ./mvnw '-Dtest=**/*UnitTest' test
+
+    - script: ./mvnw '-Dtest=**/*IntegrationTest' test
+      name: Integration Tests
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - ./mvnw sonar:sonar -Dsonar.projectKey=viethoanguyen97_java-commons
