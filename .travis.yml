@@ -18,7 +18,8 @@ branches:
 
 stages:
   - compile
-  - tests
+  - name: tests
+    if: type == pull_request
   #split the summary test result and inspection to another stage triggered only on master and pull requests
   - name: deploy
     if: type != pull_request
@@ -52,7 +53,7 @@ jobs:
       name: Deploy stage
       script:
         - ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent package org.jacoco:jacoco-maven-plugin:report
-        - ./mvnw sonar:sonar
+        - ./mvnw sonar:sonar -Dsonar.projectKey=viethoanguyen97_java-commons
         - bash <(curl -s https://codecov.io/bash)
 after_success:
   - echo "Success"
