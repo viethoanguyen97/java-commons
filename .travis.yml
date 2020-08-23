@@ -4,6 +4,10 @@ jdk:
 cache:
   directories:
     - $HOME/.m2
+env:
+  jobs:
+    - TEST_CONFIG='-Dtest=**/*UnitTest'
+    - TEST_CONFIG='-Dtest=**/*IntegrationTest'
 addons:
   sonarcloud:
     organization: "viethoanguyen97"
@@ -12,7 +16,7 @@ addons:
 
 stages:
   - compile
-  - test
+  - tests
 before_install:
   #install elastic search
   - curl -s -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.8.1-amd64.deb
@@ -28,11 +32,10 @@ before_script:
 jobs:
   include:
     - stage: compile
+      name: "Compile stage"
       script: ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install -DskipTests
-    - stage: test
-      script:
-        - ./mvnw test '-Dtest=**/*UnitTest'
-        - ./mvnw test '-Dtest=**/*IntegrationTest'
+    - stage: tests
+      script: ./mvnw $TEST_CONFIG test
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - ./mvnw sonar:sonar -Dsonar.projectKey=viethoanguyen97_java-commons
