@@ -19,7 +19,7 @@
         <h2db.version>1.4.200</h2db.version>
         <hibernate.version>5.4.15.Final</hibernate.version>
         <assertj.version>3.16.1</assertj.version>
-        <junit.version>4.13</junit.version>
+        <junit.version>4.13.1</junit.version>
         <mockito.version>3.3.3</mockito.version>
         <guava.version>29.0-jre</guava.version>
         <jackson.version>2.11.1</jackson.version>
