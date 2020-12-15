@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -15,7 +14,7 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.*;
-import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -35,7 +34,7 @@ public class EmployeeControllerUnitTest {
     public void test_that_getAllEmployees_returns_all_employees_in_json_array() throws Exception {
         List<Employee> employees = singletonList(new Employee("grapes"));
 
-        given(_employeeService.getAllEmployees()).willReturn(employees);
+        when(_employeeService.getAllEmployees()).thenReturn(employees);
 
         _mockMvc.perform(get("/api/employees").contentType(APPLICATION_JSON))
                 .andDo(print())
