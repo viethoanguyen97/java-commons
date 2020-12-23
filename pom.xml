@@ -16,6 +16,7 @@
         <apache.collections4.version>4.4</apache.collections4.version>
         <assertj.version>3.16.1</assertj.version>
         <awaitility.version>4.0.3</awaitility.version>
+        <barcode4j.version>2.1</barcode4j.version>
         <elasticsearch.version>7.8.1</elasticsearch.version>
         <guava.version>29.0-jre</guava.version>
         <gson.version>2.6.2</gson.version>
@@ -36,6 +37,7 @@
         <spring.security.version>5.3.3.RELEASE</spring.security.version>
         <spring.version>5.2.6.RELEASE</spring.version>
         <thymeleaf.version>3.0.4.RELEASE</thymeleaf.version>
+        <zxing.version>3.4.1</zxing.version>
     </properties>
 
     <modules>
@@ -83,6 +85,16 @@
                 <artifactId>spring-boot-test</artifactId>
                 <version>${spring.boot.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -290,7 +302,21 @@
                 <artifactId>json-path</artifactId>
                 <version>${json-path.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>net.sf.barcode4j</groupId>
+                <artifactId>barcode4j</artifactId>
+                <version>${barcode4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>${zxing.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>javase</artifactId>
+                <version>${zxing.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
