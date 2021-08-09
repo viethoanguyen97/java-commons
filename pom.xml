@@ -17,7 +17,7 @@
         <assertj.version>3.16.1</assertj.version>
         <awaitility.version>4.0.3</awaitility.version>
         <barcode4j.version>2.1</barcode4j.version>
-        <elasticsearch.version>7.11.2</elasticsearch.version>
+        <elasticsearch.version>7.13.3</elasticsearch.version>
         <guava.version>29.0-jre</guava.version>
         <gson.version>2.6.2</gson.version>
         <h2db.version>1.4.200</h2db.version>
