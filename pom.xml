@@ -20,7 +20,7 @@
         <elasticsearch.version>7.14.0</elasticsearch.version>
         <guava.version>29.0-jre</guava.version>
         <gson.version>2.6.2</gson.version>
-        <h2db.version>1.4.200</h2db.version>
+        <h2db.version>2.1.210</h2db.version>
         <hamcrest.version>2.2</hamcrest.version>
         <hibernate.version>5.4.15.Final</hibernate.version>
         <jackson.version>2.11.1</jackson.version>
