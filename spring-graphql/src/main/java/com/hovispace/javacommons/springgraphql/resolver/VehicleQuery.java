@@ -1,6 +1,6 @@
 package com.hovispace.javacommons.springgraphql.resolver;
 
-import com.coxautodev.graphql.tools.GraphQLQueryResolver;
+import graphql.kickstart.tools.GraphQLQueryResolver;
 import com.hovispace.javacommons.springgraphql.entity.Vehicle;
 import com.hovispace.javacommons.springgraphql.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;

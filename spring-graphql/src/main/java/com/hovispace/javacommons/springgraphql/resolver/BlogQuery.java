@@ -1,6 +1,6 @@
 package com.hovispace.javacommons.springgraphql.resolver;
 
-import com.coxautodev.graphql.tools.GraphQLQueryResolver;
+import graphql.kickstart.tools.GraphQLQueryResolver;
 import com.hovispace.javacommons.springgraphql.dao.PostDao;
 import com.hovispace.javacommons.springgraphql.entity.Post;
 import org.springframework.beans.factory.annotation.Autowired;

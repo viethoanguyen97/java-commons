@@ -1,6 +1,6 @@
 package com.hovispace.javacommons.springgraphql.resolver;
 
-import com.coxautodev.graphql.tools.GraphQLResolver;
+import graphql.kickstart.tools.GraphQLResolver;
 import com.hovispace.javacommons.springgraphql.dao.PostDao;
 import com.hovispace.javacommons.springgraphql.entity.Author;
 import com.hovispace.javacommons.springgraphql.entity.Post;
