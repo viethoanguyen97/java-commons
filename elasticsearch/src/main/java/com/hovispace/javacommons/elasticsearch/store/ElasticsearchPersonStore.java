@@ -1,30 +1,18 @@
 package com.hovispace.javacommons.elasticsearch.store;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.Result;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch.core.IndexResponse;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import com.google.common.annotations.VisibleForTesting;
 import com.hovispace.javacommons.elasticsearch.model.Person;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.SearchHits;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.util.Objects;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-
-import static java.util.Spliterator.ORDERED;
-import static java.util.Spliterators.spliterator;
-import static org.elasticsearch.client.RequestOptions.DEFAULT;
-import static org.elasticsearch.common.xcontent.XContentType.JSON;
-import static org.elasticsearch.rest.RestStatus.*;
 
 public class ElasticsearchPersonStore implements PersonStore {
 
@@ -35,48 +23,33 @@ public class ElasticsearchPersonStore implements PersonStore {
     @VisibleForTesting
     static final String PERSON_INDEX = "person";
 
-    /**
-     * because RestHighLevelClient methods are final we can not using mockito to mock it,
-     * so in order to write unit tests in production, consider writing a facade wrapping the RestHighLevelClient and mock that object.
-     */
-    private final RestHighLevelClient _elasticClient;
-    private final ObjectMapper _objectMapper;
+    private final ElasticsearchClient _elasticClient;
 
     @Autowired
-    public ElasticsearchPersonStore(RestHighLevelClient elasticClient, ObjectMapper objectMapper) {
+    public ElasticsearchPersonStore(ElasticsearchClient elasticClient) {
         _elasticClient = elasticClient;
-        _objectMapper = objectMapper;
     }
 
     @Override
-    public Stream<Person> find(SearchSourceBuilder searchSourceBuilder) throws IOException {
-        //if number of search hit exceed limit, use ScrollAPI instead, for this tutorial, I'll skip it
-        SearchRequest searchRequest = new SearchRequest(PERSON_INDEX);
-        searchRequest.source(searchSourceBuilder);
-        SearchHits searchHits = _elasticClient.search(searchRequest, DEFAULT).getHits();
-        return StreamSupport.stream(spliterator(searchHits.iterator(), searchHits.getTotalHits().value, ORDERED), false)
-            .map(this::toPerson)
+    public Stream<Person> find(Query query) throws IOException {
+        SearchResponse<Person> searchResponse = _elasticClient.search(s -> s
+            .index(PERSON_INDEX)
+            .query(query),
+            Person.class
+        );
+        return searchResponse.hits().hits().stream()
+            .map(Hit::source)
             .filter(Objects::nonNull);
     }
 
     @Override
     public void insert(Person person) throws IOException {
-        IndexRequest indexRequest = new IndexRequest(PERSON_INDEX);
-        String jsonString = _objectMapper.writeValueAsString(person);
-        IndexResponse indexResponse = _elasticClient.index(indexRequest.source(jsonString, JSON), DEFAULT);
-        if (indexResponse.status() != OK && indexResponse.status() != CREATED) {
-            throw new RuntimeException("Failed to insert json for " + person.toString() + ". Status was " + indexResponse.status() + " and response was " + indexResponse);
-        }
-    }
-
-    @Nullable
-    private Person toPerson(SearchHit searchHit) {
-        try {
-            String jsonString = searchHit.getSourceAsString();
-            Person person = _objectMapper.readValue(jsonString, Person.class);
-            return person;
-        } catch (JsonProcessingException e) {
-            throw new UncheckedIOException(e);
+        IndexResponse indexResponse = _elasticClient.index(i -> i
+            .index(PERSON_INDEX)
+            .document(person)
+        );
+        if (indexResponse.result() != Result.Created && indexResponse.result() != Result.Updated) {
+            throw new RuntimeException("Failed to insert document for " + person.toString() + ". Result was " + indexResponse.result());
         }
     }
 
