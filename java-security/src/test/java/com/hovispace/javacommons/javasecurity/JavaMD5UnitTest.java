@@ -5,9 +5,9 @@ import com.google.common.io.Files;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
 
-import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.security.MessageDigest;
+import java.util.HexFormat;
 
 import static com.google.common.hash.Hashing.md5;
 import static java.nio.file.Files.readAllBytes;
@@ -31,7 +31,7 @@ public class JavaMD5UnitTest {
 
         // use digest() function to generate a hash code:
         byte[] digest = md.digest();
-        String hashResult = DatatypeConverter.printHexBinary(digest).toUpperCase();
+        String hashResult = HexFormat.of().formatHex(digest).toUpperCase();
         String expectedHashResult = "5EB63BBBE01EEED093CB22BB8F5ACDC3";
 
         assertThat(hashResult).isEqualTo(expectedHashResult);
@@ -44,7 +44,7 @@ public class JavaMD5UnitTest {
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(readAllBytes(get(fileName)));
         byte[] digest = md.digest();
-        String checksum = DatatypeConverter.printHexBinary(digest).toUpperCase();
+        String checksum = HexFormat.of().formatHex(digest).toUpperCase();
         String expectedChecksum = "5EB63BBBE01EEED093CB22BB8F5ACDC3";
 
         assertThat(checksum).isEqualTo(expectedChecksum);

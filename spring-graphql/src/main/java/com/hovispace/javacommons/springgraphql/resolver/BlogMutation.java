@@ -1,9 +1,11 @@
 package com.hovispace.javacommons.springgraphql.resolver;
 
-import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import com.hovispace.javacommons.springgraphql.dao.PostDao;
 import com.hovispace.javacommons.springgraphql.entity.Post;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.stereotype.Controller;
 
 import java.util.UUID;
 
@@ -17,12 +19,13 @@ import java.util.UUID;
  *
  * Instead, Mutations should be used to inform the client that this will cause a change to the data being stored.
  *
- * Mutations are defined in the Java code by using classes that implement GraphQLMutationResolver instead of GraphQLQueryResolver.
+ * With Spring for GraphQL, mutations are defined using @MutationMapping instead of @QueryMapping.
  *
  * Otherwise, all of the same rules apply as for queries. The return value from a Mutation field is then treated exactly the same as from a Query field,
  * allowing nested values to be retrieved as well.
  */
-public class BlogMutation implements GraphQLMutationResolver {
+@Controller
+public class BlogMutation {
 
     private final PostDao _postDao;
 
@@ -31,7 +34,8 @@ public class BlogMutation implements GraphQLMutationResolver {
         _postDao = postDao;
     }
 
-    public Post writePost(String title, String text, String category, String author) {
+    @MutationMapping
+    public Post writePost(@Argument String title, @Argument String text, @Argument String category, @Argument String author) {
         Post post = new Post();
         post.setId(UUID.randomUUID().toString());
         post.setTitle(title);

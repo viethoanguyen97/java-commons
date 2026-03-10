@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
-import org.springframework.util.concurrent.ListenableFuture;
-import org.springframework.util.concurrent.ListenableFutureCallback;
+
+import java.util.concurrent.CompletableFuture;
 
 @Component
 public class GreetingKafkaProducer {
@@ -23,15 +23,11 @@ public class GreetingKafkaProducer {
     }
 
     public void sendMessage(String topicName, Greeting greeting) {
-        ListenableFuture<SendResult<String, Greeting>> future = _kafkaTemplate.send(topicName, greeting);
-        future.addCallback(new ListenableFutureCallback<SendResult<String, Greeting>>() {
-            @Override
-            public void onFailure(Throwable throwable) {
-                LOGGER.error("Unable to send message {} due to : {}", greeting.getName(), throwable.getMessage());
-            }
-
-            @Override
-            public void onSuccess(SendResult<String, Greeting> result) {
+        CompletableFuture<SendResult<String, Greeting>> future = _kafkaTemplate.send(topicName, greeting);
+        future.whenComplete((result, ex) -> {
+            if (ex != null) {
+                LOGGER.error("Unable to send message {} due to : {}", greeting.getName(), ex.getMessage());
+            } else {
                 LOGGER.info("Sent message {} with offset : {}", greeting.getName(), result.getRecordMetadata().offset());
             }
         });

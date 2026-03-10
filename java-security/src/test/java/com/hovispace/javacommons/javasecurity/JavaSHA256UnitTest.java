@@ -4,8 +4,8 @@ import com.google.common.hash.Hashing;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
 
-import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
+import java.util.HexFormat;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,7 +26,7 @@ public class JavaSHA256UnitTest {
         md.update(hashString.getBytes());
 
         byte[] digest = md.digest();
-        String hashResult = DatatypeConverter.printHexBinary(digest).toLowerCase();
+        String hashResult = HexFormat.of().formatHex(digest).toLowerCase();
         String expectedHashResult = "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9";
 
         assertThat(hashResult).isEqualTo(expectedHashResult);
@@ -57,7 +57,7 @@ public class JavaSHA256UnitTest {
         md.update(hashString.getBytes());
 
         byte[] digest = md.digest();
-        String hashResult = DatatypeConverter.printHexBinary(digest).toLowerCase();
+        String hashResult = HexFormat.of().formatHex(digest).toLowerCase();
         String expectedHashResult = "644bcc7e564373040999aac89e7622f3ca71fba1d972fd94a31c3bfbf24e3938";
 
         assertThat(hashResult).isEqualTo(expectedHashResult);
