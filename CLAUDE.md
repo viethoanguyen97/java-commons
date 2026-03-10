@@ -225,16 +225,17 @@ No production source code — only test classes.
 
 ---
 
-## CI/CD (Travis CI)
+## CI/CD (GitHub Actions)
 
-`.travis.yml` defines three stages on the `master` branch only:
+`.github/workflows/ci.yml` defines four jobs triggered on pushes and pull requests to `master`:
 1. **Compile:** `./mvnw clean install -DskipTests`
 2. **Unit Tests:** `./mvnw '-Dtest=**/*UnitTest' test`
 3. **Integration Tests:** `./mvnw '-Dtest=**/*IntegrationTest' test`
+4. **Code Quality** (master push only): JaCoCo coverage, SonarCloud analysis, Codecov upload
 
-Post-test: JaCoCo report generation, SonarCloud analysis, Codecov upload.
+Elasticsearch 7.8.1 runs as a Docker service container for integration tests (heap limited to 128m).
 
-Elasticsearch 7.8.1 is started via Docker service for integration tests (heap limited to 128m).
+Required GitHub secrets: `SONAR_TOKEN`, `CODECOV_TOKEN`.
 
 ---
 
