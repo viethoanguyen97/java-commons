@@ -39,7 +39,7 @@ public class VehicleServiceIntegrationTest {
         Vehicle vehicle = _vehicleService.createVehicle("typeTest", "modelCodeTest", "brandName", "2020-07-27");
 
         Vehicle actual = getOnlyElement(_vehicleRepository.findAll());
-        assertThat(actual).isEqualToIgnoringGivenFields(vehicle, "formattedDate");
+        assertThat(actual).usingRecursiveComparison().ignoringFields("formattedDate").isEqualTo(vehicle);
     }
 
     @Test
