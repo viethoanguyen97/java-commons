@@ -7,8 +7,8 @@ This document provides context for AI assistants working on this repository. It 
 **java-commons** is a multi-module Maven project demonstrating common Java/Spring patterns and integrations. It serves as an educational/reference repository covering Kafka, GraphQL, Elasticsearch, cryptographic security, barcode generation, and serialization utilities.
 
 - **Group ID:** `com.hovispace`
-- **Java Version:** 11
-- **Spring Boot:** 2.3.0.RELEASE
+- **Java Version:** 25
+- **Spring Boot:** 4.0.3
 - **Build Tool:** Apache Maven (wrapper included)
 
 ---
