@@ -1,6 +1,6 @@
 package com.hovispace.javacommons.elasticsearch.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import tools.jackson.annotation.JsonProperty;
 
 public class Person {
 
