@@ -5,6 +5,9 @@ public class Greeting {
     private String _message;
     private String _name;
 
+    public Greeting() {
+    }
+
     public Greeting(String message, String name) {
         _message = message;
         _name = name;

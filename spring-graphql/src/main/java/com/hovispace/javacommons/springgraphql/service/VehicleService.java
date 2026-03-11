@@ -3,6 +3,7 @@ package com.hovispace.javacommons.springgraphql.service;
 import com.hovispace.javacommons.springgraphql.dao.VehicleRepository;
 import com.hovispace.javacommons.springgraphql.entity.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
+@Service
 public class VehicleService {
 
     private final VehicleRepository _vehicleRepository;

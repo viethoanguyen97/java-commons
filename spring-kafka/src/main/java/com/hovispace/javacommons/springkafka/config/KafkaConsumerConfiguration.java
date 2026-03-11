@@ -27,7 +27,7 @@ import static org.apache.kafka.clients.consumer.ConsumerConfig.*;
 @Configuration
 public class KafkaConsumerConfiguration {
 
-    @Value("${kafka.bootstrapAddress")
+    @Value("${kafka.bootstrapAddress}")
     private String _bootstrapAddress;
 
     public ConsumerFactory<String, String> consumerFactory(String groupId) {
@@ -45,12 +45,10 @@ public class KafkaConsumerConfiguration {
     public ConsumerFactory<String, Greeting> greetingConsumerFactory() {
         Map<String, Object> props = ImmutableMap.of(
             BOOTSTRAP_SERVERS_CONFIG, _bootstrapAddress,
-            GROUP_ID_CONFIG, "greeting",
-            KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class,
-            VALUE_DESERIALIZER_CLASS_CONFIG, new JsonDeserializer(Greeting.class)
+            GROUP_ID_CONFIG, "greeting"
         );
 
-        return new DefaultKafkaConsumerFactory<>(props);
+        return new DefaultKafkaConsumerFactory<>(props, new org.apache.kafka.common.serialization.StringDeserializer(), new JsonDeserializer<>(Greeting.class));
     }
 
     @Bean

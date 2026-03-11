@@ -56,7 +56,7 @@ public class KryoSerializerUnitTest {
         Person readPerson = _kryo.readObject(_input, Person.class);
         _input.close();
 
-        assertThat(readPerson).isEqualToComparingFieldByField(person);
+        assertThat(readPerson).usingRecursiveComparison().isEqualTo(person);
     }
 
     @Test
