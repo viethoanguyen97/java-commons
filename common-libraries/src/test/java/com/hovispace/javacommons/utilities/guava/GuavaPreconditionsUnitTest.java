@@ -1,6 +1,6 @@
 package com.hovispace.javacommons.utilities.guava;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static com.google.common.base.Preconditions.*;
 import static java.util.Arrays.binarySearch;

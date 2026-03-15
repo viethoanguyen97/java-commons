@@ -1,9 +1,9 @@
 package com.hovispace.javacommons.utilities.guava;
 
 import com.google.common.collect.Range;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Guava’s Range represents an interval, for example, a < range < b. Here range includes any value between a and b, called endpoints which form the boundary.

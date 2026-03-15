@@ -2,20 +2,17 @@ package com.hovispace.javacommons.springgraphql.service;
 
 import com.hovispace.javacommons.springgraphql.dao.VehicleRepository;
 import com.hovispace.javacommons.springgraphql.entity.Vehicle;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import jakarta.annotation.Resource;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.Resource;
 import java.util.Optional;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
 @DataJpaTest
 public class VehicleServiceIntegrationTest {
 
@@ -39,7 +36,7 @@ public class VehicleServiceIntegrationTest {
         Vehicle vehicle = _vehicleService.createVehicle("typeTest", "modelCodeTest", "brandName", "2020-07-27");
 
         Vehicle actual = getOnlyElement(_vehicleRepository.findAll());
-        assertThat(actual).isEqualToIgnoringGivenFields(vehicle, "formattedDate");
+        assertThat(actual).usingRecursiveComparison().ignoringFields("formattedDate").isEqualTo(vehicle);
     }
 
     @Test
