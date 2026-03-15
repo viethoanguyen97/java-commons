@@ -1,17 +1,14 @@
 package com.hovispace.javacommons.springgraphql.resolver;
 
+import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import com.hovispace.javacommons.springgraphql.entity.Vehicle;
 import com.hovispace.javacommons.springgraphql.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.Optional;
 
-@Controller
-public class VehicleQuery {
+public class VehicleQuery implements GraphQLQueryResolver {
 
     private final VehicleService _vehicleService;
 
@@ -20,13 +17,11 @@ public class VehicleQuery {
         _vehicleService = vehicleService;
     }
 
-    @QueryMapping
-    public List<Vehicle> vehicles(@Argument int count) {
+    public List<Vehicle> getVehicles(int count) {
         return _vehicleService.getAllVehicles(count);
     }
 
-    @QueryMapping
-    public Optional<Vehicle> vehicle(@Argument int id) {
+    public Optional<Vehicle> getVehicle(int id) {
         return _vehicleService.getVehicle(id);
     }
 }

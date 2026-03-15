@@ -1,6 +1,6 @@
 package com.hovispace.javacommons.springtesting.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "person")
@@ -10,9 +10,6 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-
-    protected Employee() {
-    }
 
     public Employee(String name) {
         this.name = name;

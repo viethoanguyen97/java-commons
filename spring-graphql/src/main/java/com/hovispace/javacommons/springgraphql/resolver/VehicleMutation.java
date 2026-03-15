@@ -1,14 +1,11 @@
 package com.hovispace.javacommons.springgraphql.resolver;
 
+import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import com.hovispace.javacommons.springgraphql.entity.Vehicle;
 import com.hovispace.javacommons.springgraphql.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.MutationMapping;
-import org.springframework.stereotype.Controller;
 
-@Controller
-public class VehicleMutation {
+public class VehicleMutation implements GraphQLMutationResolver {
 
     private final VehicleService _vehicleService;
 
@@ -17,8 +14,7 @@ public class VehicleMutation {
         _vehicleService = vehicleService;
     }
 
-    @MutationMapping
-    public Vehicle createVehicle(@Argument String type, @Argument String modelCode, @Argument String brandName, @Argument String launchDate) {
+    public Vehicle createVehicle(String type, String modelCode, String brandName, String launchDate) {
         return _vehicleService.createVehicle(type, modelCode, brandName, launchDate);
     }
 }

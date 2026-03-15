@@ -1,6 +1,6 @@
 package com.hovispace.javacommons.springgraphql.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 

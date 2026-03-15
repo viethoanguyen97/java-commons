@@ -1,16 +1,14 @@
 package com.hovispace.javacommons.springgraphql.resolver;
 
+import com.coxautodev.graphql.tools.GraphQLResolver;
 import com.hovispace.javacommons.springgraphql.dao.PostDao;
 import com.hovispace.javacommons.springgraphql.entity.Author;
 import com.hovispace.javacommons.springgraphql.entity.Post;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.graphql.data.method.annotation.SchemaMapping;
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
-@Controller
-public class AuthorResolver {
+public class AuthorResolver implements GraphQLResolver<Author> {
 
     private final PostDao _postDao;
 
@@ -19,8 +17,7 @@ public class AuthorResolver {
         _postDao = postDao;
     }
 
-    @SchemaMapping(typeName = "Author", field = "posts")
-    public List<Post> posts(Author author) {
+    public List<Post> getPosts(Author author) {
         return _postDao.getAuthorPosts(author.getId());
     }
 }
