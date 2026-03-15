@@ -225,16 +225,25 @@ No production source code — only test classes.
 
 ---
 
-## CI/CD (Travis CI)
+## CI/CD (GitHub Actions)
 
-`.travis.yml` defines three stages on the `master` branch only:
-1. **Compile:** `./mvnw clean install -DskipTests`
-2. **Unit Tests:** `./mvnw '-Dtest=**/*UnitTest' test`
-3. **Integration Tests:** `./mvnw '-Dtest=**/*IntegrationTest' test`
+The pipeline is defined in `.github/workflows/ci.yml` and runs on pushes and pull requests to `master`. It has four jobs:
 
-Post-test: JaCoCo report generation, SonarCloud analysis, Codecov upload.
+1. **Compile** — `./mvnw clean install -DskipTests`
+2. **Unit Tests** — `./mvnw '-Dtest=**/*UnitTest' test` (runs after compile)
+3. **Integration Tests** — `./mvnw '-Dtest=**/*IntegrationTest' test` (runs after compile, with Elasticsearch 7.8.1 service container, heap limited to 128m)
+4. **Code Quality** — runs only on `master` push after both test jobs pass:
+   - JaCoCo coverage report generation
+   - SonarCloud analysis (requires `SONAR_TOKEN` secret)
+   - Codecov upload
 
-Elasticsearch 7.8.1 is started via Docker service for integration tests (heap limited to 128m).
+### Required GitHub Secrets
+
+| Secret | Description |
+|--------|-------------|
+| `SONAR_TOKEN` | SonarCloud authentication token for project `viethoanguyen97_java-commons` |
+
+`GITHUB_TOKEN` is provided automatically by GitHub Actions.
 
 ---
 
