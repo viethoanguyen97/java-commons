@@ -9,7 +9,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import static org.springframework.kafka.support.KafkaHeaders.RECEIVED_PARTITION_ID;
+import static org.springframework.kafka.support.KafkaHeaders.RECEIVED_PARTITION;
 
 @Component
 public class KafkaConsumer {
@@ -25,7 +25,7 @@ public class KafkaConsumer {
 
     // Spring also supports retrieval of one or more message headers using the @Header annotation in the listener:
     @KafkaListener(topics = "headers")
-    public void listenWithHeader(@Payload String message, @Header(RECEIVED_PARTITION_ID) int partition) {
+    public void listenWithHeader(@Payload String message, @Header(RECEIVED_PARTITION) int partition) {
         LOGGER.info("Received message: {}, from partition: {} ", message, partition);
     }
 
@@ -37,7 +37,7 @@ public class KafkaConsumer {
         @PartitionOffset(partition = "0", initialOffset = "0"),
         @PartitionOffset(partition = "3", initialOffset = "0")
     }), containerFactory = "partitionsKafkaListenerContainerFactory")
-    public void listenToPartition(@Payload String message, @Header(RECEIVED_PARTITION_ID) int partition) {
+    public void listenToPartition(@Payload String message, @Header(RECEIVED_PARTITION) int partition) {
         LOGGER.info("Received message: {}, from partition: {} ", message, partition);
     }
 
