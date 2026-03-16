@@ -5,7 +5,6 @@ import com.hovispace.javacommons.springgraphql.dao.PostDao;
 import com.hovispace.javacommons.springgraphql.dao.VehicleRepository;
 import com.hovispace.javacommons.springgraphql.entity.Author;
 import com.hovispace.javacommons.springgraphql.entity.Post;
-import com.hovispace.javacommons.springgraphql.resolver.*;
 import com.hovispace.javacommons.springgraphql.service.VehicleService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,38 +46,10 @@ public class SpringGraphQLConfiguration {
     }
 
     @Bean
-    public PostResolver postResolver(AuthorDao authorDao) {
-        return new PostResolver(authorDao);
-    }
-
-    @Bean
-    public AuthorResolver authorResolver(PostDao postDao) {
-        return new AuthorResolver(postDao);
-    }
-
-    @Bean
-    public BlogQuery blogQuery(PostDao postDao) {
-        return new BlogQuery(postDao);
-    }
-
-    @Bean
-    public BlogMutation blogMutation(PostDao postDao) {
-        return new BlogMutation(postDao);
-    }
-
-    @Bean
-    public VehicleQuery vehicleQuery(VehicleService vehicleService) {
-        return new VehicleQuery(vehicleService);
-    }
-
-    @Bean
-    public VehicleMutation vehicleMutation(VehicleService vehicleService) {
-        return new VehicleMutation(vehicleService);
-    }
-
-    @Bean
     public VehicleService vehicleService(VehicleRepository vehicleRepository) {
         return new VehicleService(vehicleRepository);
     }
 
+    // BlogQuery, BlogMutation, VehicleQuery, VehicleMutation, AuthorResolver, PostResolver
+    // are now @Controller beans auto-detected by Spring component scanning.
 }

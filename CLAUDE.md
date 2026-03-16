@@ -7,9 +7,9 @@ This document provides context for AI assistants working on this repository. It 
 **java-commons** is a multi-module Maven project demonstrating common Java/Spring patterns and integrations. It serves as an educational/reference repository covering Kafka, GraphQL, Elasticsearch, cryptographic security, barcode generation, and serialization utilities.
 
 - **Group ID:** `com.hovispace`
-- **Java Version:** 11
-- **Spring Boot:** 2.3.0.RELEASE
-- **Build Tool:** Apache Maven (wrapper included)
+- **Java Version:** 21
+- **Spring Boot:** 3.4.3
+- **Build Tool:** Apache Maven 3.9.9 (no wrapper; CI installs Maven via `actions/setup-java`)
 
 ---
 
@@ -31,11 +31,11 @@ java-commons/
 
 | Module | Package Suffix | Key Tech |
 |--------|---------------|----------|
-| `common-libraries` | `commonlibraries` | Guava, Kryo 5, Barcode4j 2.1, ZXing 3.4.1 |
-| `elasticsearch` | `elasticsearch` | Elasticsearch 7.14.0 (RestHighLevelClient) |
+| `common-libraries` | `commonlibraries` | Guava 33.4.0-jre, Kryo 5.5.0, Barcode4j 2.1, ZXing 3.5.3 |
+| `elasticsearch` | `elasticsearch` | Elasticsearch 7.17.28 (RestHighLevelClient) |
 | `java-security` | `javasecurity` | Guava, Apache Commons Codec |
-| `spring-graphql` | `springgraphql` | graphql-spring-boot-starter 5.0.2, graphql-java-tools 5.2.4 |
-| `spring-kafka` | `springkafka` | Spring Kafka, Spring Boot |
+| `spring-graphql` | `springgraphql` | spring-boot-starter-graphql (native), Spring Boot 3.4.3 |
+| `spring-kafka` | `springkafka` | Spring Kafka (managed by Boot BOM), Spring Boot 3.4.3 |
 | `spring-testing` | `springtesting` | Spring Boot Test, Spring Data JPA, H2 |
 
 ---
@@ -44,25 +44,25 @@ java-commons/
 
 ```bash
 # Build all modules (skip tests)
-./mvnw clean install -DskipTests
+mvn clean install -DskipTests
 
 # Build a single module
-./mvnw clean install -DskipTests -pl spring-kafka
+mvn clean install -DskipTests -pl spring-kafka
 
 # Run all unit tests
-./mvnw test -Dtest="**/*UnitTest"
+mvn test -Dtest="**/*UnitTest"
 
 # Run all integration tests
-./mvnw test -Dtest="**/*IntegrationTest"
+mvn test -Dtest="**/*IntegrationTest"
 
 # Run all tests
-./mvnw test
+mvn test
 
 # Run tests in a specific module
-./mvnw test -pl spring-testing
+mvn test -pl spring-testing
 
 # Generate JaCoCo coverage report
-./mvnw jacoco:report
+mvn jacoco:report
 ```
 
 ---
@@ -122,11 +122,11 @@ Both patterns are required by maven-surefire-plugin includes:
 
 ## Testing Stack
 
-- **JUnit 4** via `junit-vintage-engine` (5.7.0) — not JUnit 5 native
-- **Mockito** 3.3.3 with `mockito-junit-jupiter`
-- **AssertJ** 3.16.1 for fluent assertions
+- **JUnit 5** (`junit-jupiter`) — managed by Spring Boot BOM via `spring-boot-starter-test`
+- **Mockito** (latest, managed by Boot BOM) with `@ExtendWith(MockitoExtension.class)`
+- **AssertJ** (managed by Boot BOM) for fluent assertions
 - **Hamcrest** 2.2
-- **Awaitility** 4.0.3 for async assertions (useful in Kafka tests)
+- **Awaitility** (managed by Boot BOM) for async assertions (useful in Kafka tests)
 - **Spring Boot Test** with `@SpringBootTest`
 - **H2** in-memory database for JPA tests
 
@@ -137,39 +137,38 @@ When writing tests, prefer AssertJ (`assertThat(...)`) for assertions. Use Await
 ## Key Dependencies
 
 ```xml
-<!-- Core -->
-Spring Boot 2.3.0.RELEASE
-Spring Framework 5.2.6.RELEASE
-Spring Security 5.3.9.RELEASE
+<!-- Core (managed by Spring Boot 3.4.3 BOM) -->
+Spring Boot 3.4.3
+Spring Framework 6.x
+Spring Security 6.x
 
-<!-- Data / Messaging -->
-Spring Data JPA
-Spring Kafka
-Hibernate 5.4.15.Final
-H2 1.4.200
+<!-- Data / Messaging (managed by BOM) -->
+Spring Data JPA 3.x
+Spring Kafka 3.x
+Hibernate 6.x (org.hibernate.orm:hibernate-core)
+H2 2.x
 
-<!-- Elasticsearch -->
-org.elasticsearch:elasticsearch:7.14.0
-org.elasticsearch.client:elasticsearch-rest-high-level-client
+<!-- Elasticsearch (explicit — Boot BOM manages ES 8.x only) -->
+org.elasticsearch:elasticsearch:7.17.28
+org.elasticsearch.client:elasticsearch-rest-high-level-client:7.17.28
 
-<!-- GraphQL -->
-com.graphql-java-kickstart:graphql-spring-boot-starter:5.0.2
-com.graphql-java-kickstart:graphql-java-tools:5.2.4
+<!-- GraphQL (Spring Boot native) -->
+org.springframework.boot:spring-boot-starter-graphql
 
 <!-- Utilities -->
-com.google.guava:guava:29.0-jre
-org.apache.commons:commons-lang3:3.10
-commons-codec:commons-codec:1.15
-com.google.code.gson:gson:2.6.2
-com.esotericsoftware:kryo:5.0.0-RC7
+com.google.guava:guava:33.4.0-jre
+org.apache.commons:commons-lang3 (managed by BOM)
+commons-codec:commons-codec:1.17.1
+com.google.code.gson:gson (managed by BOM)
+com.esotericsoftware:kryo:5.5.0
 
 <!-- Barcode/QR -->
 net.sf.barcode4j:barcode4j:2.1
-com.google.zxing:core:3.4.1
-com.google.zxing:javase:3.4.1
+com.google.zxing:core:3.5.3
+com.google.zxing:javase:3.5.3
 
-<!-- JSON -->
-com.fasterxml.jackson.core:jackson-core:2.11.1
+<!-- JSON (managed by BOM) -->
+com.fasterxml.jackson.core:jackson-core:2.17.x
 ```
 
 ---
@@ -187,7 +186,7 @@ Key classes: `Employee`, `EmployeeService`/`EmployeeServiceImpl`, `EmployeeContr
 ### spring-kafka
 Demonstrates Kafka producer/consumer patterns with serialization via Jackson and Guava.
 
-- `GreetingKafkaProducer` — sends `Greeting` objects; uses `ListenableFuture` callbacks
+- `GreetingKafkaProducer` — sends `Greeting` objects; uses `CompletableFuture` callbacks
 - `GreetingKafkaConsumer` — receives on topic, stores messages for test verification
 - Configuration via `KafkaProducerConfiguration` and `KafkaConsumerConfiguration`
 
@@ -198,9 +197,13 @@ GraphQL API with two schemas:
 - `blog.graphqls` — Post/Author types
 - `vehicle.graphqls` — Vehicle types
 
-Resolver classes implement `GraphQLQueryResolver` or `GraphQLMutationResolver`.
+Resolver classes are `@Controller` beans using Spring Boot native GraphQL annotations:
+- `@QueryMapping` for query fields
+- `@MutationMapping` for mutation fields
+- `@SchemaMapping(typeName = "...")` for type-level field resolvers
+- `@Argument` to bind GraphQL arguments to method parameters
 
-Access GraphiQL UI at `http://localhost:8080/graphiql` when running locally.
+Access GraphiQL UI at `http://localhost:8080/graphiql` when running locally (enabled via `spring.graphql.graphiql.enabled=true`).
 
 ### elasticsearch
 Uses the deprecated (but functional for 7.x) `RestHighLevelClient` API.
@@ -221,6 +224,8 @@ Pure utility tests demonstrating:
 - MD5 hashing via `JavaMD5UnitTest` (Guava and Apache Commons Codec)
 - SHA-256 hashing via `JavaSHA256UnitTest`
 
+Uses `HexFormat` (Java 17+) for byte-to-hex conversion.
+
 No production source code — only test classes.
 
 ---
@@ -229,9 +234,9 @@ No production source code — only test classes.
 
 The pipeline is defined in `.github/workflows/ci.yml` and runs on pushes and pull requests to `master`. It has four jobs:
 
-1. **Compile** — `./mvnw clean install -DskipTests`
-2. **Unit Tests** — `./mvnw '-Dtest=**/*UnitTest' test` (runs after compile)
-3. **Integration Tests** — `./mvnw '-Dtest=**/*IntegrationTest' test` (runs after compile, with Elasticsearch 7.8.1 service container, heap limited to 128m)
+1. **Compile** — `mvn clean install -DskipTests`
+2. **Unit Tests** — `mvn '-Dtest=**/*UnitTest' test` (runs after compile)
+3. **Integration Tests** — `mvn '-Dtest=**/*IntegrationTest' test` (runs after compile, with Elasticsearch 7.17.28 service container, heap limited to 128m)
 4. **Code Quality** — runs only on `master` push after both test jobs pass:
    - JaCoCo coverage report generation
    - SonarCloud analysis (requires `SONAR_TOKEN` secret)
@@ -276,6 +281,8 @@ The pipeline is defined in `.github/workflows/ci.yml` and runs on pushes and pul
 
 - **Test naming:** Tests not ending in `UnitTest` or `IntegrationTest` will not run in CI
 - **Private field prefix:** Follow the `_fieldName` convention for private instance fields
-- **JUnit version:** The project uses JUnit 4 via the vintage engine — avoid JUnit 5 `@Test` from `org.junit.jupiter`
-- **Elasticsearch version:** Module targets 7.x API; `RestHighLevelClient` is deprecated in 8.x
-- **Spring Boot version:** 2.3.0.RELEASE is intentional; do not upgrade without testing all modules
+- **JUnit version:** The project uses JUnit 5 (`junit-jupiter`) — use `org.junit.jupiter.api.Test`, `@ExtendWith(MockitoExtension.class)`, `@BeforeEach`, etc.
+- **Elasticsearch version:** Module targets 7.x API; `RestHighLevelClient` is deprecated in 8.x. Version is pinned explicitly in root POM since Spring Boot BOM manages 8.x.
+- **GraphQL resolvers:** Use Spring Boot native annotations (`@QueryMapping`, `@MutationMapping`, `@SchemaMapping`) — not the old graphql-java-kickstart interface-based approach
+- **Kafka futures:** `KafkaTemplate.send()` returns `CompletableFuture` in Spring Kafka 3.x — `ListenableFuture` is removed
+- **Jakarta namespace:** All JPA entities and injection annotations use `jakarta.*` (not `javax.*`)

@@ -32,9 +32,11 @@
             <groupId>com.google.zxing</groupId>
             <artifactId>javase</artifactId>
         </dependency>
+        <!-- junit-vintage-engine removed: migrated to JUnit 5 native -->
         <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>

@@ -3,10 +3,10 @@ package com.hovispace.javacommons.utilities.guava;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
 import com.google.common.collect.TreeRangeSet;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * A RangeSet is a set comprising of zero or more non-empty, disconnected ranges. When adding a range to a mutable RangeSet, any connected ranges are merged together while empty ranges are ignored.

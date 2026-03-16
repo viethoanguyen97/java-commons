@@ -1,6 +1,6 @@
 #The GraphQL Tools library works by processing GraphQL Schema files to build the correct structure and then wires special beans to this structure.
 #The Spring Boot GraphQL starter automatically finds these schema files.
-#These files need to be saved with the extension “.graphqls” and can be present anywhere on the classpath. We can also have as many of these files as desired,
+#These files need to be saved with the extension ".graphqls" and can be present anywhere on the classpath. We can also have as many of these files as desired,
 #so we can split the scheme up into modules as desired.
 
 type Post {
@@ -9,6 +9,7 @@ type Post {
     text: String!
     category: String
     authorId: String!
+    author: Author
 }
 
 type Author {

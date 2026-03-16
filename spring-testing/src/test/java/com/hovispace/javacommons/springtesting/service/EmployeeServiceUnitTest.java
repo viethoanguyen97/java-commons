@@ -3,20 +3,18 @@ package com.hovispace.javacommons.springtesting.service;
 import com.hovispace.javacommons.springtesting.entity.Employee;
 import com.hovispace.javacommons.springtesting.repository.EmployeeRepository;
 import com.hovispace.javacommons.springtesting.service.impl.EmployeeServiceImpl;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import jakarta.annotation.Resource;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.annotation.Resource;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
+@SpringJUnitConfig
 public class EmployeeServiceUnitTest {
 
     @MockBean

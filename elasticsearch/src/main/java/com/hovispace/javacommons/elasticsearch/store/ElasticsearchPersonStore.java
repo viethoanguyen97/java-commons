@@ -13,7 +13,7 @@ import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Objects;
@@ -23,7 +23,7 @@ import java.util.stream.StreamSupport;
 import static java.util.Spliterator.ORDERED;
 import static java.util.Spliterators.spliterator;
 import static org.elasticsearch.client.RequestOptions.DEFAULT;
-import static org.elasticsearch.common.xcontent.XContentType.JSON;
+import static org.elasticsearch.xcontent.XContentType.JSON;
 import static org.elasticsearch.rest.RestStatus.*;
 
 public class ElasticsearchPersonStore implements PersonStore {

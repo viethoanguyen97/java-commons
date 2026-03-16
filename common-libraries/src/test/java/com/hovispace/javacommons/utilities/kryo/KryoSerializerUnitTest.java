@@ -4,8 +4,8 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.serializers.JavaSerializer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,11 +25,11 @@ public class KryoSerializerUnitTest {
     private Input _input;
     private Output _output;
 
-    @Before
+    @BeforeEach
     public void init() throws FileNotFoundException {
         _kryo = new Kryo();
 
-        // From kyro 5: registration is required by default. For this tutorial, kryo object is initialized in @Before method. imho: in production code, consider a verbose-object.
+        // From kyro 5: registration is required by default. For this tutorial, kryo object is initialized in @BeforeEach method. imho: in production code, consider a verbose-object.
         // see: https://github.com/EsotericSoftware/kryo/issues/627
         _kryo.register(Person.class);
         _kryo.register(OtherPerson.class);
@@ -56,7 +56,7 @@ public class KryoSerializerUnitTest {
         Person readPerson = _kryo.readObject(_input, Person.class);
         _input.close();
 
-        assertThat(readPerson).isEqualToComparingFieldByField(person);
+        assertThat(readPerson).usingRecursiveComparison().isEqualTo(person);
     }
 
     @Test

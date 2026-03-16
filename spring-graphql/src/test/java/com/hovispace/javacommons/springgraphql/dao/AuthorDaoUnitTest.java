@@ -2,9 +2,9 @@ package com.hovispace.javacommons.springgraphql.dao;
 
 import com.hovispace.javacommons.springgraphql.entity.Author;
 import com.hovispace.javacommons.springgraphql.entity.Post;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
@@ -12,7 +12,7 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class AuthorDaoUnitTest {
 
     @Test

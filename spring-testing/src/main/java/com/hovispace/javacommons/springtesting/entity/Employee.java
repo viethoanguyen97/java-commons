@@ -1,6 +1,6 @@
 package com.hovispace.javacommons.springtesting.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "person")
