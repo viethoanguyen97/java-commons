@@ -9,7 +9,7 @@ This document provides context for AI assistants working on this repository. It 
 - **Group ID:** `com.hovispace`
 - **Java Version:** 21
 - **Spring Boot:** 3.4.3
-- **Build Tool:** Apache Maven (wrapper included)
+- **Build Tool:** Apache Maven 3.9.9 (no wrapper; CI installs Maven via `actions/setup-java`)
 
 ---
 
@@ -44,25 +44,25 @@ java-commons/
 
 ```bash
 # Build all modules (skip tests)
-./mvnw clean install -DskipTests
+mvn clean install -DskipTests
 
 # Build a single module
-./mvnw clean install -DskipTests -pl spring-kafka
+mvn clean install -DskipTests -pl spring-kafka
 
 # Run all unit tests
-./mvnw test -Dtest="**/*UnitTest"
+mvn test -Dtest="**/*UnitTest"
 
 # Run all integration tests
-./mvnw test -Dtest="**/*IntegrationTest"
+mvn test -Dtest="**/*IntegrationTest"
 
 # Run all tests
-./mvnw test
+mvn test
 
 # Run tests in a specific module
-./mvnw test -pl spring-testing
+mvn test -pl spring-testing
 
 # Generate JaCoCo coverage report
-./mvnw jacoco:report
+mvn jacoco:report
 ```
 
 ---
@@ -234,9 +234,9 @@ No production source code — only test classes.
 
 The pipeline is defined in `.github/workflows/ci.yml` and runs on pushes and pull requests to `master`. It has four jobs:
 
-1. **Compile** — `./mvnw clean install -DskipTests`
-2. **Unit Tests** — `./mvnw '-Dtest=**/*UnitTest' test` (runs after compile)
-3. **Integration Tests** — `./mvnw '-Dtest=**/*IntegrationTest' test` (runs after compile, with Elasticsearch 7.17.28 service container, heap limited to 128m)
+1. **Compile** — `mvn clean install -DskipTests`
+2. **Unit Tests** — `mvn '-Dtest=**/*UnitTest' test` (runs after compile)
+3. **Integration Tests** — `mvn '-Dtest=**/*IntegrationTest' test` (runs after compile, with Elasticsearch 7.17.28 service container, heap limited to 128m)
 4. **Code Quality** — runs only on `master` push after both test jobs pass:
    - JaCoCo coverage report generation
    - SonarCloud analysis (requires `SONAR_TOKEN` secret)
