@@ -159,6 +159,7 @@
                 <configuration>
                     <skip>false</skip>
                     <failIfNoTests>false</failIfNoTests>
+                    <failIfNoSpecifiedTests>false</failIfNoSpecifiedTests>
                     <testFailureIgnore>false</testFailureIgnore>
                     <includes>
                         <include>**/*IntegrationTest.java</include>
