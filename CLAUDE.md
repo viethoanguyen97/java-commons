@@ -7,8 +7,8 @@ This document provides context for AI assistants working on this repository. It 
 **java-commons** is a multi-module Maven project demonstrating common Java/Spring patterns and integrations. It serves as an educational/reference repository covering Kafka, GraphQL, Elasticsearch, cryptographic security, barcode generation, and serialization utilities.
 
 - **Group ID:** `com.hovispace`
-- **Java Version:** 21
-- **Spring Boot:** 3.4.3
+- **Java Version:** 25
+- **Spring Boot:** 4.0.3
 - **Build Tool:** Apache Maven 3.9.9 (no wrapper; CI installs Maven via `actions/setup-java`)
 
 ---
@@ -32,10 +32,10 @@ java-commons/
 | Module | Package Suffix | Key Tech |
 |--------|---------------|----------|
 | `common-libraries` | `commonlibraries` | Guava 33.4.0-jre, Kryo 5.5.0, Barcode4j 2.1, ZXing 3.5.3 |
-| `elasticsearch` | `elasticsearch` | Elasticsearch 7.17.28 (RestHighLevelClient) |
+| `elasticsearch` | `elasticsearch` | Elasticsearch 8.x (co.elastic.clients:elasticsearch-java) |
 | `java-security` | `javasecurity` | Guava, Apache Commons Codec |
-| `spring-graphql` | `springgraphql` | spring-boot-starter-graphql (native), Spring Boot 3.4.3 |
-| `spring-kafka` | `springkafka` | Spring Kafka (managed by Boot BOM), Spring Boot 3.4.3 |
+| `spring-graphql` | `springgraphql` | spring-boot-starter-graphql (native), Spring Boot 4.0.3 |
+| `spring-kafka` | `springkafka` | Spring Kafka (managed by Boot BOM), Spring Boot 4.0.3 |
 | `spring-testing` | `springtesting` | Spring Boot Test, Spring Data JPA, H2 |
 
 ---
@@ -206,12 +206,12 @@ Resolver classes are `@Controller` beans using Spring Boot native GraphQL annota
 Access GraphiQL UI at `http://localhost:8080/graphiql` when running locally (enabled via `spring.graphql.graphiql.enabled=true`).
 
 ### elasticsearch
-Uses the deprecated (but functional for 7.x) `RestHighLevelClient` API.
+Uses the Elasticsearch Java API Client (`co.elastic.clients:elasticsearch-java`) targeting ES 8.x.
 
-- `ElasticConfig` — configures the client bean
+- `ElasticConfig` — configures `ElasticsearchClient` via `RestClient` + `RestClientTransport`
 - `PersonStore` / `ElasticsearchPersonStore` — document CRUD abstraction
 
-Requires a running Elasticsearch 7.x instance. See `elasticsearch/README.md` for Docker setup.
+Requires a running Elasticsearch 8.x instance with security disabled (`xpack.security.enabled=false`).
 
 ### common-libraries
 Utility demonstrations:
@@ -282,7 +282,7 @@ The pipeline is defined in `.github/workflows/ci.yml` and runs on pushes and pul
 - **Test naming:** Tests not ending in `UnitTest` or `IntegrationTest` will not run in CI
 - **Private field prefix:** Follow the `_fieldName` convention for private instance fields
 - **JUnit version:** The project uses JUnit 5 (`junit-jupiter`) — use `org.junit.jupiter.api.Test`, `@ExtendWith(MockitoExtension.class)`, `@BeforeEach`, etc.
-- **Elasticsearch version:** Module targets 7.x API; `RestHighLevelClient` is deprecated in 8.x. Version is pinned explicitly in root POM since Spring Boot BOM manages 8.x.
+- **Elasticsearch version:** Module uses ES 8.x Java API Client (`co.elastic.clients:elasticsearch-java`), managed by the Spring Boot BOM. The old `RestHighLevelClient` has been removed.
 - **GraphQL resolvers:** Use Spring Boot native annotations (`@QueryMapping`, `@MutationMapping`, `@SchemaMapping`) — not the old graphql-java-kickstart interface-based approach
 - **Kafka futures:** `KafkaTemplate.send()` returns `CompletableFuture` in Spring Kafka 3.x — `ListenableFuture` is removed
 - **Jakarta namespace:** All JPA entities and injection annotations use `jakarta.*` (not `javax.*`)

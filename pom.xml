@@ -12,9 +12,9 @@
     <properties>
         <project.version>1.0</project.version>
         <!-- Spring Boot version - all Spring/Hibernate/Jackson/JUnit/etc. versions are managed by BOM -->
-        <spring.boot.version>3.4.3</spring.boot.version>
-        <!-- Elasticsearch 7.x (not managed by Spring Boot 3.x BOM) -->
-        <elasticsearch.version>7.17.28</elasticsearch.version>
+        <spring.boot.version>4.0.3</spring.boot.version>
+        <!-- Java release version - override with -Djava.compiler.release=21 for local builds on JDK 21 -->
+        <java.compiler.release>25</java.compiler.release>
         <!-- Utilities not managed by Spring Boot BOM -->
         <guava.version>33.4.0-jre</guava.version>
         <kryo.version>5.5.0</kryo.version>
@@ -45,23 +45,6 @@
                 <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-
-            <!-- Elasticsearch 7.x client (not managed by Spring Boot 3.x BOM) -->
-            <dependency>
-                <groupId>org.elasticsearch</groupId>
-                <artifactId>elasticsearch</artifactId>
-                <version>${elasticsearch.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.elasticsearch.client</groupId>
-                <artifactId>elasticsearch-rest-high-level-client</artifactId>
-                <version>${elasticsearch.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.elasticsearch.client</groupId>
-                <artifactId>transport</artifactId>
-                <version>${elasticsearch.version}</version>
             </dependency>
 
             <!-- Google Guava (not in Spring Boot BOM) -->
@@ -149,7 +132,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
                 <configuration>
-                    <release>21</release>
+                    <release>${java.compiler.release}</release>
                 </configuration>
             </plugin>
             <plugin>
