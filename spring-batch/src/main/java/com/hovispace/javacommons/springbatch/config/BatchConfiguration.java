@@ -9,10 +9,12 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
-import org.springframework.batch.item.data.RepositoryItemWriter;
-import org.springframework.batch.item.data.builder.RepositoryItemWriterBuilder;
-import org.springframework.batch.item.file.FlatFileItemReader;
-import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
+// Spring Batch 6 moved item reader/writer/processor classes to the
+// org.springframework.batch.infrastructure.item package (from org.springframework.batch.item)
+import org.springframework.batch.infrastructure.item.data.RepositoryItemWriter;
+import org.springframework.batch.infrastructure.item.data.builder.RepositoryItemWriterBuilder;
+import org.springframework.batch.infrastructure.item.file.FlatFileItemReader;
+import org.springframework.batch.infrastructure.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -57,7 +59,7 @@ public class BatchConfiguration {
      * - targetType: the class to map each row into (uses BeanWrapperFieldSetMapper internally)
      */
     @Bean
-    public FlatFileItemReader<EmployeeSalaryInput> reader() {
+    public FlatFileItemReader<EmployeeSalaryInput> reader() throws Exception {
         return new FlatFileItemReaderBuilder<EmployeeSalaryInput>()
                 .name("employeeSalaryReader")
                 .resource(new ClassPathResource("employees.csv"))
@@ -103,11 +105,15 @@ public class BatchConfiguration {
      * Parameters:
      * - jobRepository: stores step execution metadata (status, read/write counts, etc.)
      * - transactionManager: manages the transaction boundary around each chunk
+     *
+     * Note: In Spring Batch 6, the chunk API changed from chunk(size, txManager) to
+     * chunk(size).transactionManager(txManager) as separate builder calls.
      */
     @Bean
     public Step employeeSalaryStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
         return new StepBuilder("employeeSalaryStep", jobRepository)
-                .<EmployeeSalaryInput, EmployeeSalary>chunk(5, transactionManager)
+                .<EmployeeSalaryInput, EmployeeSalary>chunk(5)
+                .transactionManager(transactionManager)
                 .reader(reader())
                 .processor(processor())
                 .writer(writer())

@@ -13,11 +13,13 @@
     <artifactId>spring-batch</artifactId>
 
     <dependencies>
-        <!-- Spring Boot Starter for Batch — pulls in spring-batch-core, spring-boot-autoconfigure,
-             and auto-configuration for jobs, steps, and the job repository -->
+        <!-- Spring Boot Starter for Batch with JDBC — pulls in spring-batch-core,
+             spring-boot-autoconfigure, and JDBC-backed JobRepository auto-configuration.
+             In Spring Boot 4, the batch starter was split: use spring-boot-starter-batch-jdbc
+             for JDBC-backed batch metadata storage (required when writing to a database). -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-batch</artifactId>
+            <artifactId>spring-boot-starter-batch-jdbc</artifactId>
         </dependency>
 
         <!-- Spring Boot core -->
@@ -57,9 +59,11 @@
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- Spring Boot 4 batch test starter — provides @SpringBatchTest,
+             JobLauncherTestUtils, and JobRepositoryTestUtils for integration testing -->
         <dependency>
-            <groupId>org.springframework.batch</groupId>
-            <artifactId>spring-batch-test</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-batch-jdbc-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

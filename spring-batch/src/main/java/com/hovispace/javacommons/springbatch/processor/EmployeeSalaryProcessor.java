@@ -4,7 +4,8 @@ import com.hovispace.javacommons.springbatch.dto.EmployeeSalaryInput;
 import com.hovispace.javacommons.springbatch.entity.EmployeeSalary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.item.ItemProcessor;
+// Spring Batch 6 moved ItemProcessor to the infrastructure package
+import org.springframework.batch.infrastructure.item.ItemProcessor;
 
 /**
  * Custom ItemProcessor that transforms raw CSV input into a processed entity.
