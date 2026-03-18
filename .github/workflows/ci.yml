@@ -13,10 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 21 with Maven
+      - name: Set up JDK 25 with Maven
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '25'
           distribution: 'temurin'
           maven-version: '3.9.9'
 
@@ -37,10 +37,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 21 with Maven
+      - name: Set up JDK 25 with Maven
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '25'
           distribution: 'temurin'
           maven-version: '3.9.9'
 
@@ -60,9 +60,11 @@ jobs:
     needs: compile
     services:
       elasticsearch:
-        image: elasticsearch:7.17.28
+        image: elasticsearch:9.0.1
         env:
           discovery.type: single-node
+          xpack.security.enabled: "false"
+          xpack.security.http.ssl.enabled: "false"
           ES_JAVA_OPTS: "-Xms128m -Xmx128m"
         ports:
           - 9200:9200
@@ -74,10 +76,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 21 with Maven
+      - name: Set up JDK 25 with Maven
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '25'
           distribution: 'temurin'
           maven-version: '3.9.9'
 
@@ -101,10 +103,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up JDK 21 with Maven
+      - name: Set up JDK 25 with Maven
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '25'
           distribution: 'temurin'
           maven-version: '3.9.9'
 

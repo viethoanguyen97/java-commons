@@ -4,7 +4,7 @@ import com.hovispace.javacommons.springgraphql.dao.VehicleRepository;
 import com.hovispace.javacommons.springgraphql.entity.Vehicle;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
