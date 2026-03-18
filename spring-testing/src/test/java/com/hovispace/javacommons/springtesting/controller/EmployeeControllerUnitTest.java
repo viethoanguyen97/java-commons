@@ -4,8 +4,8 @@ import com.hovispace.javacommons.springtesting.entity.Employee;
 import com.hovispace.javacommons.springtesting.service.EmployeeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class EmployeeControllerUnitTest {
     @Autowired
     private MockMvc _mockMvc;
 
-    @MockBean
+    @MockitoBean
     private EmployeeService _employeeService;
 
     @Test
