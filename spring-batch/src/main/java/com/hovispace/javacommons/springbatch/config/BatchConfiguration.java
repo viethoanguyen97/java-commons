@@ -110,7 +110,7 @@ public class BatchConfiguration {
      * chunk(size).transactionManager(txManager) as separate builder calls.
      */
     @Bean
-    public Step employeeSalaryStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
+    public Step employeeSalaryStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) throws Exception {
         return new StepBuilder("employeeSalaryStep", jobRepository)
                 .<EmployeeSalaryInput, EmployeeSalary>chunk(5)
                 .transactionManager(transactionManager)
