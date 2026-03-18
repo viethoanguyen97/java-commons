@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 21 with Maven
+      - name: Set up JDK 25 with Maven
         uses: actions/setup-java@v4
         with:
           java-version: '25'
@@ -37,7 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 21 with Maven
+      - name: Set up JDK 25 with Maven
         uses: actions/setup-java@v4
         with:
           java-version: '25'
@@ -76,7 +76,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 21 with Maven
+      - name: Set up JDK 25 with Maven
         uses: actions/setup-java@v4
         with:
           java-version: '25'
@@ -103,7 +103,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up JDK 21 with Maven
+      - name: Set up JDK 25 with Maven
         uses: actions/setup-java@v4
         with:
           java-version: '25'
