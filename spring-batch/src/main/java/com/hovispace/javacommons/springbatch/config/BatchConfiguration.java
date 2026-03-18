@@ -4,10 +4,10 @@ import com.hovispace.javacommons.springbatch.dto.EmployeeSalaryInput;
 import com.hovispace.javacommons.springbatch.entity.EmployeeSalary;
 import com.hovispace.javacommons.springbatch.processor.EmployeeSalaryProcessor;
 import com.hovispace.javacommons.springbatch.repository.EmployeeSalaryRepository;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.Step;
+import org.springframework.batch.core.job.Job;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.step.Step;
 import org.springframework.batch.core.step.builder.StepBuilder;
 // Spring Batch 6 moved item reader/writer/processor classes to the
 // org.springframework.batch.infrastructure.item package (from org.springframework.batch.item)
