@@ -13,11 +13,10 @@ import jakarta.persistence.*;
  * and the writer persists the final type. This decouples the input format from the storage model.
  */
 @Entity
+@Access(AccessType.PROPERTY)
 @Table(name = "employee_salary")
 public class EmployeeSalary {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long _id;
 
     private String _name;
@@ -35,6 +34,8 @@ public class EmployeeSalary {
         _salary = salary;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return _id;
     }
