@@ -4,7 +4,7 @@ This document provides context for AI assistants working on this repository. It 
 
 ## Project Overview
 
-**java-commons** is a multi-module Maven project demonstrating common Java/Spring patterns and integrations. It serves as an educational/reference repository covering Kafka, GraphQL, Elasticsearch, cryptographic security, barcode generation, and serialization utilities.
+**java-commons** is a multi-module Maven project demonstrating common Java/Spring patterns and integrations. It serves as an educational/reference repository covering Kafka, GraphQL, Elasticsearch, Spring Batch, cryptographic security, barcode generation, and serialization utilities.
 
 - **Group ID:** `com.hovispace`
 - **Java Version:** 25
@@ -21,6 +21,7 @@ java-commons/
 ├── common-libraries/        # Guava, Kryo, Barcode4j, ZXing utilities
 ├── elasticsearch/           # Elasticsearch REST client integration
 ├── java-security/           # Cryptographic hashing (MD5, SHA-256)
+├── spring-batch/            # Spring Batch CSV processing tutorial
 ├── spring-data/             # Placeholder module (no source yet)
 ├── spring-graphql/          # GraphQL API with Spring Boot
 ├── spring-kafka/            # Kafka producer/consumer examples
@@ -34,6 +35,7 @@ java-commons/
 | `common-libraries` | `commonlibraries` | Guava 33.4.0-jre, Kryo 5.5.0, Barcode4j 2.1, ZXing 3.5.3 |
 | `elasticsearch` | `elasticsearch` | Elasticsearch 9.x (co.elastic.clients:elasticsearch-java + elasticsearch-rest5-client) |
 | `java-security` | `javasecurity` | Guava, Apache Commons Codec |
+| `spring-batch` | `springbatch` | spring-boot-starter-batch-jdbc, Spring Batch 6.x, Spring Data JPA, H2 |
 | `spring-graphql` | `springgraphql` | spring-boot-starter-graphql (native), Spring Boot 4.0.3 |
 | `spring-kafka` | `springkafka` | Spring Kafka (managed by Boot BOM), Spring Boot 4.0.3 |
 | `spring-testing` | `springtesting` | Spring Boot Test, Spring Data JPA, H2 |
@@ -86,6 +88,8 @@ resolver/      # GraphQL resolver classes (spring-graphql)
 store/         # Storage abstraction classes (elasticsearch)
 producer/      # Kafka producers
 consumer/      # Kafka consumers
+processor/     # Spring Batch item processors
+dto/           # Data Transfer Objects (e.g., batch input types)
 ```
 
 ---
@@ -152,6 +156,10 @@ H2 2.x
 co.elastic.clients:elasticsearch-java
 org.elasticsearch.client:elasticsearch-rest5-client
 
+<!-- Batch (Spring Boot 4 split starters) -->
+org.springframework.boot:spring-boot-starter-batch-jdbc
+org.springframework.boot:spring-boot-starter-batch-jdbc-test (test)
+
 <!-- GraphQL (Spring Boot native) -->
 org.springframework.boot:spring-boot-starter-graphql
 
@@ -174,6 +182,28 @@ com.fasterxml.jackson.core:jackson-core (managed by BOM)
 ---
 
 ## Module-Specific Notes
+
+### spring-batch
+Demonstrates a classic Spring Batch use case: CSV file processing with chunk-oriented steps.
+
+- **Job:** `employeeSalaryJob` — reads employee records from `employees.csv`, processes them, writes to H2
+- **Reader:** `FlatFileItemReader<EmployeeSalaryInput>` — parses CSV with header skip
+- **Processor:** `EmployeeSalaryProcessor` — applies 10% salary increase + uppercases department
+- **Writer:** `RepositoryItemWriter<EmployeeSalary>` — persists via JPA repository
+- **Configuration:** `BatchConfiguration` — defines Job, Step, reader, processor, writer beans
+
+Key classes: `EmployeeSalaryInput` (DTO), `EmployeeSalary` (entity), `EmployeeSalaryProcessor`, `BatchConfiguration`, `EmployeeSalaryRepository`
+
+Important notes:
+- Uses `spring-boot-starter-batch-jdbc` (not `spring-boot-starter-batch`) — Spring Boot 4 split the batch starter
+- **Do NOT use `@EnableBatchProcessing`** — it disables Spring Boot's batch auto-configuration
+- Spring Batch 6 moved item classes to `org.springframework.batch.infrastructure.item.*` (from `org.springframework.batch.item.*`)
+- Chunk API: use `.chunk(size).transactionManager(txManager)` (not `.chunk(size, txManager)`)
+- `FlatFileItemReaderBuilder.build()` throws checked exceptions in Batch 6
+- Job auto-launch is disabled via `spring.batch.job.name=` in `application.properties`; tests launch explicitly via `JobLauncherTestUtils`
+- Integration tests use `@SpringBatchTest` + `@SpringBootTest` with `spring-boot-starter-batch-jdbc-test`
+
+No external services required — uses H2 in-memory database for both batch metadata and application data.
 
 ### spring-testing
 Reference module for Spring Boot testing patterns. Demonstrates:
@@ -287,3 +317,6 @@ The pipeline is defined in `.github/workflows/ci.yml` and runs on pushes and pul
 - **Kafka futures:** `KafkaTemplate.send()` returns `CompletableFuture` in Spring Kafka 4.x — `ListenableFuture` is removed
 - **Jakarta namespace:** All JPA entities and injection annotations use `jakarta.*` (not `javax.*`)
 - **Spring Boot 4 test module split:** `@WebMvcTest` moved to `spring-boot-webmvc-test` (`org.springframework.boot.webmvc.test.autoconfigure`); `@DataJpaTest` to `spring-boot-data-jpa-test` (`org.springframework.boot.data.jpa.test.autoconfigure`); `TestEntityManager` to `spring-boot-jpa-test` (`org.springframework.boot.jpa.test.autoconfigure`). `@MockBean` removed — use `@MockitoBean` from `org.springframework.test.context.bean.override.mockito`.
+- **Spring Batch 6 packages:** Item reader/writer/processor classes moved from `org.springframework.batch.item.*` to `org.springframework.batch.infrastructure.item.*`. The old imports will not compile.
+- **Spring Batch starter split:** Use `spring-boot-starter-batch-jdbc` (not `spring-boot-starter-batch`) for JDBC-backed `JobRepository`. Test starter is `spring-boot-starter-batch-jdbc-test`.
+- **`@EnableBatchProcessing`:** Do NOT use — it disables Spring Boot's batch auto-configuration in Boot 3+
