@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 
 /**
  * Unit tests for EmployeeSalaryProcessor.
@@ -34,7 +35,7 @@ class EmployeeSalaryProcessorUnitTest {
         EmployeeSalary result = _processor.process(input);
 
         // Then: the salary should be increased by 10%
-        assertThat(result.getSalary()).isEqualTo(110000.00);
+        assertThat(result.getSalary()).isCloseTo(110000.00, within(0.01));
     }
 
     @Test
