@@ -16,7 +16,7 @@
         <!-- Java release version - override with -Djava.compiler.release=21 for local builds on JDK 21 -->
         <java.compiler.release>25</java.compiler.release>
         <!-- Utilities not managed by Spring Boot BOM -->
-        <guava.version>33.4.0-jre</guava.version>
+        <guava.version>33.7.1-jre</guava.version>
         <kryo.version>5.5.0</kryo.version>
         <zxing.version>3.5.3</zxing.version>
         <barcode4j.version>2.1</barcode4j.version>
